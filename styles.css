@@ -1,0 +1,14 @@
+body {
+    background: #f8f9fa;
+}
+
+.course-card, .tutor-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.course-card:hover, .tutor-card:hover {
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}

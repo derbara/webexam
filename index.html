@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Exam Courses — Главная</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+
+<header class="bg-dark text-white py-3 mb-4">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <div class="me-3 fw-bold fs-4">EC</div>
+            <h1 class="h4 m-0">Языковая школа «Exam Courses»</h1>
+        </div>
+
+        <nav>
+            <a href="#about" class="text-white me-3">О нас</a>
+            <a href="#advantages" class="text-white me-3">Преимущества</a>
+            <a href="#courses" class="text-white me-3">Курсы</a>
+            <a href="#tutors" class="text-white me-3">Репетиторы</a>
+            <a href="account.html" class="text-white">Личный кабинет</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+
+    <div id="notificationArea"></div>
+
+    <section id="about" class="mb-5">
+        <h2>О школе</h2>
+        <p>«Exam Courses» — современная языковая школа для всех уровней.</p>
+    </section>
+
+    <section id="advantages" class="mb-5">
+        <h2 class="mb-3">Преимущества</h2>
+
+        <div class="row">
+            <div class="col-md-3 mb-3"><div class="p-3 border rounded h-100">Карьерный рост</div></div>
+            <div class="col-md-3 mb-3"><div class="p-3 border rounded h-100">Образование за рубежом</div></div>
+            <div class="col-md-3 mb-3"><div class="p-3 border rounded h-100">Путешествия</div></div>
+            <div class="col-md-3 mb-3"><div class="p-3 border rounded h-100">Развитие мышления</div></div>
+        </div>
+    </section>
+
+    <section id="courses" class="mb-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Предлагаемые курсы</h2>
+
+            <form class="d-flex" onsubmit="event.preventDefault(); filterCourses();">
+                <input id="coursesSearchQuery" class="form-control me-2"
+                       placeholder="Поиск по названию или уровню">
+                <button class="btn btn-outline-primary" type="button" onclick="filterCourses()">Найти</button>
+            </form>
+        </div>
+
+        <div class="row" id="coursesContainer"></div>
+
+        <nav class="mt-3">
+            <ul class="pagination" id="coursesPagination"></ul>
+        </nav>
+    </section>
+
+    <section id="tutors" class="mb-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Репетиторы</h2>
+
+            <form class="d-flex" onsubmit="event.preventDefault(); renderTutors();">
+                <select id="filterTutorLevel" class="form-select me-2" style="max-width: 180px;">
+                    <option value="">Любой уровень</option>
+                    <option value="A1">A1</option>
+                    <option value="A2">A2</option>
+                    <option value="B1">B1</option>
+                    <option value="B2">B2</option>
+                    <option value="C1">C1</option>
+                </select>
+
+                <input id="filterTutorExperience" type="number" class="form-control me-2"
+                       placeholder="Опыт (лет)">
+
+                <button class="btn btn-outline-primary" type="button" onclick="renderTutors()">Фильтр</button>
+            </form>
+        </div>
+
+        <table class="table table-bordered">
+            <thead class="table-light">
+            <tr>
+                <th>Имя</th>
+                <th>Уровень</th>
+                <th>Языки</th>
+                <th>Опыт</th>
+                <th>Цена</th>
+                <th>Заказ</th>
+            </tr>
+            </thead>
+            <tbody id="tutorsTable"></tbody>
+        </table>
+    </section>
+
+</div>
+
+<section id="resources-map" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Карта образовательных ресурсов</h2>
+
+        <div class="row mb-4">
+            <div class="col-lg-8 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="map-search"
+                                   placeholder="Поиск: курсы, библиотеки, центры...">
+                            <button class="btn btn-primary" id="map-search-btn">Поиск</button>
+                        </div>
+
+                        <div class="row mt-3 g-2" id="map-filters">
+                            <div class="col-6 col-md-3"><input type="checkbox" id="filter-education" checked> Курсы</div>
+                            <div class="col-6 col-md-3"><input type="checkbox" id="filter-libraries" checked> Библиотеки</div>
+                            <div class="col-6 col-md-3"><input type="checkbox" id="filter-centers" checked> Центры</div>
+                            <div class="col-6 col-md-3"><input type="checkbox" id="filter-cafes" checked> Кафе</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="map-container" style="height: 500px; border-radius: 10px; overflow: hidden;" class="shadow">
+            <div id="map" style="height: 100%; width: 100%;"></div>
+        </div>
+
+    </div>
+</section>
+
+<div class="modal fade" id="courseOrderModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Оформление заявки</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="mb-2">
+                    <label class="form-label">Курс / Услуга</label>
+                    <input id="courseNameField" class="form-control" disabled>
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label">Преподаватель</label>
+                    <input id="courseTeacherField" class="form-control" disabled>
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label">Дата</label>
+                    <input id="courseDateSelect" type="date" class="form-control">
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label">Время</label>
+                    <select id="courseTimeSelect" class="form-control"></select>
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label">Продолжительность</label>
+                    <input id="courseDurationField" class="form-control" disabled>
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label">Количество человек</label>
+                    <input id="studentsNumberField" type="number" class="form-control" value="1" min="1">
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label">Стоимость</label>
+                    <input id="totalPriceField" class="form-control" disabled>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button class="btn btn-primary" id="submitCourseOrderBtn">Отправить</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<footer class="bg-light py-4 mt-5 border-top">
+    <div class="container d-flex flex-column flex-md-row justify-content-between">
+        <div>
+            <h5>Контакты</h5>
+            <p>Email: info@exam-courses.example</p>
+            <p>Телефон: +7 (000) 000‑00‑00</p>
+        </div>
+
+        <div>
+            <h5>Мы в соцсетях</h5>
+            <a href="#" class="me-2">VK</a>
+            <a href="#" class="me-2">Telegram</a>
+            <a href="#">YouTube</a>
+        </div>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="https://api-maps.yandex.ru/2.1/?apikey=YOUR_KEY&lang=ru_RU"></script>
+<script src="map.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
